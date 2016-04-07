@@ -1,0 +1,36 @@
+IART- Exercicio 1
+
+Ex1.2
+Se Frio:
+	AJ,NAQ,NAC
+	
+Se Calor:
+	Se T2 < 20:
+		AJ,NAQ,NAC
+	ELSE
+		NAJ,NAQ,AC
+		
+Se Normal:
+	NAJ,NAQ,NAC
+	
+	
+
+Ex1.3
+Percepções:
+	ALT- Nível de água 
+	TEMP- Temperatura
+Acções:
+	AS – abrir saída de água;
+	FS – fechar saída da água;
+	AEQ – Abrir entrada de água quente;
+	FEQ – fechar entrada de água quente;
+	AEF – abrir entrada de água fria;
+	FEF – fechar entrada de água fria;
+	
+Pretende-se que: 
+	Temperatura entre os 25 e os 27 graus e que o nível de água esteja entre 1.3 e 1.5 metros. 
+	
+	
+SE TEMP<25
+	AS,AEQ
+SE ALT < 1.3

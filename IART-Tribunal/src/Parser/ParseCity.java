@@ -24,7 +24,7 @@ public class ParseCity {
         else {
             this.citiesURL = citiesURL;
             loadHtml();
-            FileOutputStream f = new FileOutputStream("merda.txt");
+            FileOutputStream f = new FileOutputStream("teste.txt");
             f.write(htmlCode.getBytes());
             f.close();
         }
@@ -49,7 +49,7 @@ public class ParseCity {
             url = new URL(citiesURL);
             FileInputStream is = (FileInputStream)url.getContent();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            FileOutputStream file = new FileOutputStream("merda.txt");
+            FileOutputStream file = new FileOutputStream("teste.txt");
         } catch (MalformedURLException e) {
             System.err.println("URL constructor error");
             e.printStackTrace();

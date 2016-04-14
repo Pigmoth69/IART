@@ -30,13 +30,9 @@ public class ParseCity {
         else {
             this.citiesURL = citiesURL;
             loadHtml();
-<<<<<<< HEAD
-            //parseHtml();
-=======
             FileOutputStream f = new FileOutputStream("teste.txt");
             f.write(htmlCode.getBytes());
-            f.close();
->>>>>>> 2cbb78e3984ec820a61b10c119c241a810742ab9
+            f.close(); 
         }
     }
     /*@Brief this functions loads a html page from the web and store it on a file.*/
@@ -87,8 +83,8 @@ public class ParseCity {
 
 
 
-/*
-         Document doc = Jsoup.parse(html);
+/* daniel
+         Document doc = Jsoup.parse(html); 
         Elements citiesHtml = doc.getElementsByAttributeValue("style", "text-align: center;");
 
         for (Element aCitiesHtml : citiesHtml) {

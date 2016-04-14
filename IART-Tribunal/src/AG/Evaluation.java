@@ -9,23 +9,22 @@ import Parser.City;
 public class Evaluation {
 	private City cidade;
 	private double score;
-	private boolean hasTribunal;
-	private int distToCloserTribunal;
+	
+	private double distToCloserTribunal;
 	private ArrayList<City> citiesOrderedByDistance;
 	private ArrayList<City> cities;
 	
-	public Evaluation(City cidade, boolean hasTribunal, ArrayList<City> cities){
+	public Evaluation(City cidade, ArrayList<City> cities){
 		this.cidade = cidade;
-		this.hasTribunal = hasTribunal;
 		this.cities = cities;
 		score = 0;
 	}
 	
 	
-	public int getDistToCloserTribunal() {
+	public double getDistToCloserTribunal() {
 		return distToCloserTribunal;
 	}
-	public void setDistToCloserTribunal(int distToCloserTribunal) {
+	public void setDistToCloserTribunal(double distToCloserTribunal) {
 		this.distToCloserTribunal = distToCloserTribunal;
 	}
 	public ArrayList<City> getCitiesOrderedByDistance() {
@@ -33,12 +32,6 @@ public class Evaluation {
 	}
 	public void setCitiesOrderedByDistance(ArrayList<City> citiesOrderedByDistance) {
 		this.citiesOrderedByDistance = citiesOrderedByDistance;
-	}
-	public boolean getHasTribunal() {
-		return hasTribunal;
-	}
-	public void setHasTribunal(boolean hasTribunal) {
-		this.hasTribunal = hasTribunal;
 	}
 	public City getCidade() {
 		return cidade;
@@ -56,6 +49,8 @@ public class Evaluation {
 	public double calculateScore(){
 		score = 0;
 		score += populationScore();
+		sortCities();
+		this.distToCloserTribunal = distanceToCloserTribunal();
 		score += distanceScore();
 		score += custosTribunal();
 		
@@ -63,21 +58,21 @@ public class Evaluation {
 	}
 	
 	public double populationScore(){
-		if(hasTribunal)
+		if(cidade.isHasTribunal())
 			return cidade.getPopulation();
 		else
 			return 0;
 	}
 	
 	public double distanceScore(){
-		if (hasTribunal)
+		if (cidade.isHasTribunal())
 			return 0;
 		else
 			return cidade.getPopulation()/distToCloserTribunal;
 	}
 	
 	private double custosTribunal() {
-		if (hasTribunal)
+		if (cidade.isHasTribunal())
 			return cidade.getCustoConstrução();
 		else
 			return 0;
@@ -101,6 +96,15 @@ public class Evaluation {
 		});
 	
 		
+	}
+	
+	public double distanceToCloserTribunal(){
+		for (City c : this.citiesOrderedByDistance){
+			if (c.isHasTribunal())
+				return cidade.getDistanceTo(c);
+		}
+		
+		return -1;
 	}
 	
 }

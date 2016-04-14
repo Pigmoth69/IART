@@ -7,9 +7,18 @@ public class City {
     private double latitude;
     private double longitude;
 	private double custoConstrução;
+	private boolean hasTribunal;
 
 
-    public double getCustoConstrução() {
+    public boolean isHasTribunal() {
+		return hasTribunal;
+	}
+
+	public void setHasTribunal(boolean hasTribunal) {
+		this.hasTribunal = hasTribunal;
+	}
+
+	public double getCustoConstrução() {
 		return custoConstrução;
 	}
 
@@ -22,12 +31,13 @@ public class City {
         this.population=population;
     }
 	
-	public City(String name, int population, double lat, double longi, double custo){
+	public City(String name, int population, double lat, double longi, double custo, boolean tribunal){
         this.name = name;
         this.population=population;
         this.latitude = lat;
         this.longitude = longi;
         this.custoConstrução = custo;
+        this.hasTribunal = tribunal;
     }
 	
 	public double getDistanceTo(City c){

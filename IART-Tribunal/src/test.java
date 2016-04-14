@@ -17,7 +17,8 @@ public class test {
 		cidades.add(new City("E", 20000, 4, 3, 1000, false));
 		cidades.add(new City("F", 1500, 5, 1, 1000, false));
 		
-		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, 3, 0.5, 0.01, 4, 3);
+		//GenethicAlgorithm(ArrayList<City> cidades, int popSize, double empProb, double mutProb, int generations, int nTribunais){
+		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, 3, 0.5, 0.01, 4, 4);
 		ArrayList<Gene> population = ga.getPopulation();
 		
 		for (Gene g : population){

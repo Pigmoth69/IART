@@ -14,6 +14,34 @@ public class Gene {
 	}
 	
 	public void generate(ArrayList<City> cidades, int nTribunais){
+		
+		ArrayList<Integer> tribunalIndexs = new ArrayList<Integer>();
+		
+		for (int i = 0; i < nTribunais; i++){
+			Random gerador = new Random();
+			int indexT = gerador.nextInt(cidades.size());
+			
+			if (!tribunalIndexs.contains(indexT))
+				tribunalIndexs.add(indexT);
+			else{
+				i--;
+				continue;
+			}
+		}
+		
+		for (int i = 0; i < cidades.size(); i++){
+			City c = cidades.get(i);
+			if (tribunalIndexs.contains(i)){
+				c.setHasTribunal(true);
+				gene.add(1);
+			}
+			else{
+				c.setHasTribunal(false);
+				gene.add(0);
+			}
+		}
+		
+		/* Este codigo não gera exatament nTribunais, mas um valor <= que nTribunais
 		for (City c : cidades){
 			if (nTribunais == 0){
 				c.setHasTribunal(false);
@@ -33,6 +61,7 @@ public class Gene {
 				}
 			}
 		}
+		*/
 	}
 
 	public ArrayList<Integer> getGene() {

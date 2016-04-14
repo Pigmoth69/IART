@@ -6,12 +6,33 @@ public class City {
     private int population;
     private double latitude;
     private double longitude;
+	private double custoConstrução;
 
 
-    City(String name, int population){
+    public double getCustoConstrução() {
+		return custoConstrução;
+	}
+
+	public void setCustoConstrução(double custoConstrução) {
+		this.custoConstrução = custoConstrução;
+	}
+
+	public City(String name, int population){
         this.name = name;
         this.population=population;
     }
+	
+	public City(String name, int population, double lat, double longi, double custo){
+        this.name = name;
+        this.population=population;
+        this.latitude = lat;
+        this.longitude = longi;
+        this.custoConstrução = custo;
+    }
+	
+	public double getDistanceTo(City c){
+		return Math.sqrt(Math.pow(latitude - c.getLatitude(), 2) + Math.pow(longitude - c.getLongitude(), 2));
+	}
 
     public void setName(String name) {
         this.name = name;

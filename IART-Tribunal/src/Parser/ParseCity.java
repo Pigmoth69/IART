@@ -30,7 +30,13 @@ public class ParseCity {
         else {
             this.citiesURL = citiesURL;
             loadHtml();
+<<<<<<< HEAD
             //parseHtml();
+=======
+            FileOutputStream f = new FileOutputStream("teste.txt");
+            f.write(htmlCode.getBytes());
+            f.close();
+>>>>>>> 2cbb78e3984ec820a61b10c119c241a810742ab9
         }
     }
     /*@Brief this functions loads a html page from the web and store it on a file.*/
@@ -70,7 +76,7 @@ public class ParseCity {
             url = new URL(citiesURL);
             FileInputStream is = (FileInputStream)url.getContent();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            FileOutputStream file = new FileOutputStream("merda.txt");
+            FileOutputStream file = new FileOutputStream("teste.txt");
         } catch (MalformedURLException e) {
             System.err.println("URL constructor error");
             e.printStackTrace();

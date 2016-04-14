@@ -20,31 +20,6 @@ public class Evaluation {
 		score = 0;
 	}
 	
-	
-	public double getDistToCloserTribunal() {
-		return distToCloserTribunal;
-	}
-	public void setDistToCloserTribunal(double distToCloserTribunal) {
-		this.distToCloserTribunal = distToCloserTribunal;
-	}
-	public ArrayList<City> getCitiesOrderedByDistance() {
-		return citiesOrderedByDistance;
-	}
-	public void setCitiesOrderedByDistance(ArrayList<City> citiesOrderedByDistance) {
-		this.citiesOrderedByDistance = citiesOrderedByDistance;
-	}
-	public City getCidade() {
-		return cidade;
-	}
-	public void setCidade(City cidade) {
-		this.cidade = cidade;
-	}
-	public double getScore() {
-		return score;
-	}
-	public void setScore(double score) {
-		this.score = score;
-	}
 
 	public double calculateScore(){
 		score = 0;
@@ -107,4 +82,32 @@ public class Evaluation {
 		return -1;
 	}
 	
+	//-------------------------
+	//GETTERS AND SETTERS
+	//-------------------------
+	
+	public double getDistToCloserTribunal() {
+		return distToCloserTribunal;
+	}
+	public void setDistToCloserTribunal(double distToCloserTribunal) {
+		this.distToCloserTribunal = distToCloserTribunal;
+	}
+	public ArrayList<City> getCitiesOrderedByDistance() {
+		return citiesOrderedByDistance;
+	}
+	public void setCitiesOrderedByDistance(ArrayList<City> citiesOrderedByDistance) {
+		this.citiesOrderedByDistance = citiesOrderedByDistance;
+	}
+	public City getCidade() {
+		return cidade;
+	}
+	public void setCidade(City cidade) {
+		this.cidade = cidade;
+	}
+	public double getScore() {
+		return score;
+	}
+	public void setScore(double score) {
+		this.score = score;
+	}
 }

@@ -1,107 +1,139 @@
 package Parser;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import javax.lang.model.util.Elements;
-import javax.swing.text.Document;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * Created by danny on 07/04/2016.
  */
-public class ParseCity {
+public class ParseCity implements java.io.Serializable{
 
-    private ArrayList<City> cityList;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4112258298254720150L;
+	private static String keyString = "AIzaSyDYEh5wv0aQQn-g5OXVEq0q6DeTZVSBTHY";
+    private ArrayList<City> cityList = new ArrayList<City>();
     private String citiesURL = new String();
-    private String htmlCode= new String();
+   // private int[][] distanceMatrix;
+    private transient Document doc;
 
-    public ParseCity(String citiesURL) throws IOException {
+    public ParseCity(String citiesURL) throws IOException, InterruptedException, JSONException {
         if(citiesURL.isEmpty())
             System.err.println("Please, enter a url");
         else {
             this.citiesURL = citiesURL;
-            loadHtml();
-            FileOutputStream f = new FileOutputStream("teste.txt");
-            f.write(htmlCode.getBytes());
-            f.close(); 
+            loadCities();
+            loadCoords();
+            loadCityDistance();
         }
     }
-    /*@Brief this functions loads a html page from the web and store it on a file.*/
-    void loadHtml() throws IOException{
-        URL url = new URL(citiesURL);
-        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-        String inputLine;
-        StringBuilder builder = new StringBuilder();
-        while ((inputLine = in.readLine()) != null){
-            builder.append(inputLine);
+
+	public ArrayList<City> getCityList() {
+		return cityList;
+	}
+
+	public void setCityList(ArrayList<City> cityList) {
+		this.cityList = cityList;
+	}
+
+	private void loadCities() throws IOException{
+        doc = Jsoup.connect(citiesURL).get();
+        Elements elements = doc.getElementsByAttributeValueMatching("style", "text-align: center;");
+        System.out.println(elements.size());
+        for(Element e: elements){
+        	if(e.childNodeSize() !=1 && e.childNodeSize() !=5){
+        		String name = e.children().get(1).text();
+        		if(name.contains("(Madeira)") || name.contains("(Açores)"))
+        			continue;
+        		String population = e.children().get(2).text();
+        		int populationNumber;
+        		try{
+        			populationNumber = getInteger(population);
+        			
+        		}catch(NumberFormatException e1){
+        			populationNumber=-1;
+        		}
+        		if(populationNumber !=-1)
+    				cityList.add(new City(name,populationNumber));
+
+        	}
         }
-        htmlCode = builder.toString();
-        FileOutputStream f = new FileOutputStream("merda.txt");
-        f.write(htmlCode.getBytes());
-        f.close();
-        in.close();
+        //distanceMatrix = new int[cityList.size()][cityList.size()];
     }
-    void parseHtml() throws ParserConfigurationException, IOException, SAXException {
-       // Document doc = Jsoup.parse(htmlCode);
-       // Elements citiesHtml = doc.getElementsByAttributeValue("style", "text-align: center;");
-
-        /*
-        Elements citiesHtml = doc.getElementsByAttributeValue("style", "text-align: center;");
-
-        for (Element aCitiesHtml : citiesHtml) {
-            String name = aCitiesHtml.children().get(1).text();
-            String population = aCitiesHtml.children().get(2).text();
-            cities.add(new City(name, parsePopulation(population)));
-        }*/
-
-        System.out.println("Finished extracting city names and populations");
+    
+    private void loadCoords() throws IOException, InterruptedException, JSONException{
+    	int current = 1;
+    	for(City c: cityList){
+    		String cityName = URLEncoder.encode(c.getName(), "utf-8");
+    		System.out.println("Getting city "+current+" -->"+c.getName());current++;
+    		URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address=" + cityName +
+    	               ",Portugal&key=" + keyString);
+    		InputStream is = url.openConnection().getInputStream();
+    		BufferedReader reader = new BufferedReader( new InputStreamReader( is )  );
+    		String line = null;
+    		StringBuilder sb = new StringBuilder();
+    		while( ( line = reader.readLine() ) != null )  {
+    		   sb.append(line);
+    		}
+    		reader.close();
+    		c.setCoords(parseCityFromJSON(sb.toString()));
+    	}
     }
-    void loadCities(){
-        System.out.println("Reading html document of cities.. Please wait.");
-        URL url = null;
-        try {
-            url = new URL(citiesURL);
-            FileInputStream is = (FileInputStream)url.getContent();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            FileOutputStream file = new FileOutputStream("teste.txt");
-        } catch (MalformedURLException e) {
-            System.err.println("URL constructor error");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.err.println("Get URL error..");
-            e.printStackTrace();
-        }
-
-
-
-/* daniel
-         Document doc = Jsoup.parse(html); 
-        Elements citiesHtml = doc.getElementsByAttributeValue("style", "text-align: center;");
-
-        for (Element aCitiesHtml : citiesHtml) {
-            String name = aCitiesHtml.children().get(1).text();
-            String population = aCitiesHtml.children().get(2).text();
-            cities.add(new City(name, parsePopulation(population)));
-        }
-
-        System.out.println("Finished extracting city names and populations");*/
-
-
-/*
-        JSONObject obj = new JSONObject();
-        JSONObject object = jsonParser.getJSONFromUrl(url);
-        String content=object.getString("json key");*/
-
+    
+    public void loadCityDistance() throws IOException{
+    	URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=38.7222524,-9.1393366&destinations=41.1579438,-8.629105299999999&key=AIzaSyDYEh5wv0aQQn-g5OXVEq0q6DeTZVSBTHY");
+    	InputStream is = url.openConnection().getInputStream();
+		BufferedReader reader = new BufferedReader( new InputStreamReader( is )  );
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while( ( line = reader.readLine() ) != null )  {
+		   sb.append(line);
+		}
+		System.out.println(sb.toString());
+		reader.close();
+		
+    	/*for(City c: cityList){
+    		
+    	}*/
+    	
     }
+    
+    private Coords parseCityFromJSON(String jsonString) throws JSONException{
+    	JSONObject obj = new JSONObject(jsonString);
+        JSONObject results = (JSONObject) obj.getJSONArray("results").get(0);
+        JSONObject geometry = results.getJSONObject("geometry");
+        JSONObject location = geometry.getJSONObject("location");
+        return new Coords(location.getDouble("lat"), location.getDouble("lng"));
+    }
+    
+   /* private int parsecityFrom(String jsonString) throws JSONException{
+    	JSONObject obj = new JSONObject(jsonString);
+        JSONObject results = (JSONObject) obj.getJSONArray("results").get(0);
+        JSONObject geometry = results.getJSONObject("geometry");
+        JSONObject location = geometry.getJSONObject("location");
+       return -1;// return new Coords(location.getDouble("lat"), location.getDouble("lng"));
+    }*/
+    
+    private int getInteger(String s){
+        String res = "";
+        for(int i = 0; i < s.length(); ++i)
+            if(Character.isDigit(s.charAt(i)))
+                res+=s.charAt(i);
 
-
+        return Integer.parseInt(res);
+    }
+  
 }

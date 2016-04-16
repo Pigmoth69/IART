@@ -1,19 +1,23 @@
 package Parser;
 
 
-public class City {
-    private String name;
+public class City implements java.io.Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1884797007619302958L;
+	private String name;
     private int population;
-    private double latitude;
-    private double longitude;
+    private Coords coords;
 
 
-    City(String name, int population){
+    public City(String name, int population){
         this.name = name;
         this.population=population;
     }
 
-    public void setName(String name) {
+
+	public void setName(String name) {
         this.name = name;
     }
 
@@ -21,13 +25,6 @@ public class City {
         this.population = population;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
 
     public int getPopulation() {
         return population;
@@ -37,11 +34,13 @@ public class City {
         return name;
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
 
-    public double getLongitude() {
-        return longitude;
-    }
+	public Coords getCoords() {
+		return coords;
+	}
+
+
+	public void setCoords(Coords coords) {
+		this.coords = coords;
+	}
 }

@@ -1,5 +1,4 @@
 import Parser.ParseCity;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,33 +7,41 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
 import org.json.JSONException;
-
 /**
  * Created by danny on 07/04/2016.
+ * http://graphstream-project.org/
  */
 public class Main {
 	private static ParseCity parser;
 	
     public static void main(String[] args) throws InterruptedException, JSONException {
-
+    	/*System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+    	Graph graph = new SingleGraph("I can see dead pixels");
+    	graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled-ratio-max; fill-image: url('C:/img/file.png');} ");
+    	graph.addNode("cenas1");
+    	graph.addNode("cenas2");
+    	graph.addNode("cenas3");
+    	Viewer viewer = graph.display();*/
        System.out.println("IART-Court");
        
        String URL = new String("https://pt.wikipedia.org/wiki/Lista_de_municípios_de_Portugal_por_população");
-        try {
+       
+       
+      try {
         	if(!loadData()){ // faz o load da data
         		System.out.println("Getting data.. Please wait.");
         		parser = new ParseCity(URL);
         		System.out.println("Completed!!");
         		saveData();
         	}else{
-        		/*System.out.println("Data loaded!!");
-        		for(City c: parser.getCityList()){
-             	   System.out.println("Name: "+c.getName()+" Lat: "+c.getCoords().getLatitude()+" Lng: "+c.getCoords().getLongitude());;
-                }
-        		parser.loadCityDistance();*/
-        		/*java.net.URL u = new URL();
-        		u.getContent()*/
+        		System.out.println("Vai come�ar...");
+        		//parser.loadCityDistance();
+        		
+        		System.out.println("Terminou...");
         	}
         } catch (IOException e) {
             e.printStackTrace();

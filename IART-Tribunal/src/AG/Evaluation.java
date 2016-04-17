@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import Parser.City;
+import Parser.County;
 
 public class Evaluation {
-	private City cidade;
+	private County cidade;
 	private double score;
 	
 	private double distToCloserTribunal;
-	private ArrayList<City> citiesOrderedByDistance;
-	private ArrayList<City> cities;
+	private ArrayList<County> citiesOrderedByDistance;
+	private ArrayList<County> cities;
 	
-	public Evaluation(City cidade, ArrayList<City> cities){
+	public Evaluation(County cidade, ArrayList<County> cities){
 		this.cidade = cidade;
 		this.cities = cities;
 		score = 0;
@@ -54,10 +54,10 @@ public class Evaluation {
 	}
 	
 	public void sortCities(){
-		citiesOrderedByDistance = new ArrayList<City>(cities);
-		Collections.sort(citiesOrderedByDistance, new Comparator<City>(){
+		citiesOrderedByDistance = new ArrayList<County>(cities);
+		Collections.sort(citiesOrderedByDistance, new Comparator<County>(){
 			@Override
-			public int compare(City c1, City c2){
+			public int compare(County c1, County c2){
 				double d1 = Math.sqrt(Math.pow(cidade.getCoords().getLatitude() - c1.getCoords().getLatitude(), 2) + Math.pow(cidade.getCoords().getLongitude() - c1.getCoords().getLongitude(), 2));
 				double d2 = Math.sqrt(Math.pow(cidade.getCoords().getLatitude() - c2.getCoords().getLatitude(), 2) + Math.pow(cidade.getCoords().getLongitude() - c2.getCoords().getLongitude(), 2));
 			
@@ -74,7 +74,7 @@ public class Evaluation {
 	}
 	
 	public double distanceToCloserTribunal(){
-		for (City c : this.citiesOrderedByDistance){
+		for (County c : this.citiesOrderedByDistance){
 			if (c.isHasTribunal())
 				return cidade.getDistanceTo(c);
 		}
@@ -92,16 +92,16 @@ public class Evaluation {
 	public void setDistToCloserTribunal(double distToCloserTribunal) {
 		this.distToCloserTribunal = distToCloserTribunal;
 	}
-	public ArrayList<City> getCitiesOrderedByDistance() {
+	public ArrayList<County> getCitiesOrderedByDistance() {
 		return citiesOrderedByDistance;
 	}
-	public void setCitiesOrderedByDistance(ArrayList<City> citiesOrderedByDistance) {
+	public void setCitiesOrderedByDistance(ArrayList<County> citiesOrderedByDistance) {
 		this.citiesOrderedByDistance = citiesOrderedByDistance;
 	}
-	public City getCidade() {
+	public County getCidade() {
 		return cidade;
 	}
-	public void setCidade(City cidade) {
+	public void setCidade(County cidade) {
 		this.cidade = cidade;
 	}
 	public double getScore() {

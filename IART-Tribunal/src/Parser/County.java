@@ -1,7 +1,7 @@
 package Parser;
 
 
-public class City implements java.io.Serializable{
+public class County implements java.io.Serializable{
     /**
 	 * 
 	 */
@@ -14,7 +14,7 @@ public class City implements java.io.Serializable{
 
 
 
-	public City(String name, int population){
+	public County(String name, int population){
 		this.name = name;
 		this.population=population;
 	}
@@ -34,7 +34,7 @@ public class City implements java.io.Serializable{
 		this.custoConstrução = custoConstrução;
 	}
 	
-	public City(String name, int population, double lat, double longi, double custo, boolean tribunal){
+	public County(String name, int population, double lat, double longi, double custo, boolean tribunal){
         this.name = name;
         this.population=population;
         this.coords = new Coords(lat,longi);
@@ -42,7 +42,7 @@ public class City implements java.io.Serializable{
         this.hasTribunal = tribunal;
     }
 	
-	public double getDistanceTo(City c){
+	public double getDistanceTo(County c){
 		return Math.sqrt(Math.pow(this.coords.getLatitude() - c.getCoords().getLatitude(), 2) + Math.pow(this.coords.getLongitude() - c.getCoords().getLongitude(), 2));
 	}
 

@@ -2,10 +2,10 @@ package AG;
 
 import java.util.ArrayList;
 
-import Parser.City;
+import Parser.County;
 
 public class GenethicAlgorithm {
-	private ArrayList<City> cidades;
+	private ArrayList<County> cidades;
 	private int popSize;
 	private double empProb;
 	private double mutProb;
@@ -15,7 +15,7 @@ public class GenethicAlgorithm {
 	private ArrayList<Gene> population;
 	private ArrayList<Gene> newPopulation;
 	
-	public GenethicAlgorithm(ArrayList<City> cidades, int popSize, double empProb, double mutProb, int generations, int nTribunais){
+	public GenethicAlgorithm(ArrayList<County> cidades, int popSize, double empProb, double mutProb, int generations, int nTribunais){
 		this.cidades = cidades;
 		this.popSize = popSize;
 		this.empProb = empProb;
@@ -39,10 +39,10 @@ public class GenethicAlgorithm {
 	public void setnTribunais(int nTribunais) {
 		this.nTribunais = nTribunais;
 	}
-	public ArrayList<City> getCidades() {
+	public ArrayList<County> getCidades() {
 		return cidades;
 	}
-	public void setCidades(ArrayList<City> cidades) {
+	public void setCidades(ArrayList<County> cidades) {
 		this.cidades = cidades;
 	}
 	public int getPopSize() {

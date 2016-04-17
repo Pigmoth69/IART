@@ -3,17 +3,17 @@ package AG;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Parser.City;
+import Parser.County;
 
 public class Gene {
 	ArrayList<Integer> gene;
 	
-	public Gene(ArrayList<City> cidades, int nTribunais) {
+	public Gene(ArrayList<County> cidades, int nTribunais) {
 		gene = new ArrayList<Integer>();
 		generate(cidades, nTribunais);
 	}
 	
-	public void generate(ArrayList<City> cidades, int nTribunais){
+	public void generate(ArrayList<County> cidades, int nTribunais){
 		
 		ArrayList<Integer> tribunalIndexs = new ArrayList<Integer>();
 		
@@ -30,7 +30,7 @@ public class Gene {
 		}
 		
 		for (int i = 0; i < cidades.size(); i++){
-			City c = cidades.get(i);
+			County c = cidades.get(i);
 			if (tribunalIndexs.contains(i)){
 				c.setHasTribunal(true);
 				gene.add(1);

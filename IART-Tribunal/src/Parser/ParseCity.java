@@ -38,7 +38,7 @@ public class ParseCity implements java.io.Serializable{
             this.citiesURL = citiesURL;
             loadCities();
             loadCoords();
-            //loadCityDistance();
+            loadCityDistance();
         }
     }
 
@@ -81,7 +81,6 @@ public class ParseCity implements java.io.Serializable{
 
         	}
         }
-        distanceMatrix = new int[cityList.size()][cityList.size()];
     }
     
     private void loadCoords() throws IOException, InterruptedException, JSONException{
@@ -103,8 +102,25 @@ public class ParseCity implements java.io.Serializable{
     	}
     }
     
-    public void loadCityDistance() throws IOException, JSONException, InterruptedException{
+    public static String getKeyString() {
+		return keyString;
+	}
+
+	public String getCitiesURL() {
+		return citiesURL;
+	}
+
+	public int[][] getDistanceMatrix() {
+		return distanceMatrix;
+	}
+
+	public Document getDoc() {
+		return doc;
+	}
+
+	public void loadCityDistance() throws IOException, JSONException, InterruptedException{
     	int current = 1;
+    	distanceMatrix = new int[cityList.size()][cityList.size()];
     	for(int i = 0 ; i < cityList.size();i++){
     		for(int j = 0 ; j < cityList.size();j++){
     			if(cityList.get(i).equals(cityList.get(j)))
@@ -126,7 +142,7 @@ public class ParseCity implements java.io.Serializable{
     				JSONObject obj = new JSONObject(sb.toString());
     				JSONObject total = obj.getJSONObject("route_summary");
     				int distance = total.getInt("total_distance");
-    				
+    				distanceMatrix[i][j]=distance;
     				System.out.println("Current-> "+current+" Total-> "+cityList.size()*cityList.size());current++;
     			}
     		}

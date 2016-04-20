@@ -1,4 +1,8 @@
+import Parser.Coords;
+import Parser.County;
 import Parser.ParseCity;
+
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,7 +12,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.stream.ProxyPipe;
+import org.graphstream.ui.graphicGraph.GraphicNode;
+import org.graphstream.ui.spriteManager.Sprite;
+import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 import org.json.JSONException;
 /**
@@ -18,14 +28,7 @@ import org.json.JSONException;
 public class Main {
 	private static ParseCity parser;
 	
-    public static void main(String[] args) throws InterruptedException, JSONException {
-    	/*System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-    	Graph graph = new SingleGraph("I can see dead pixels");
-    	graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled-ratio-max; fill-image: url('C:/img/file.png');} ");
-    	graph.addNode("cenas1");
-    	graph.addNode("cenas2");
-    	graph.addNode("cenas3");
-    	Viewer viewer = graph.display();*/
+    public static void main(String[] args) throws InterruptedException, JSONException, IOException {
        System.out.println("IART-Court");
        
        String URL = new String("https://pt.wikipedia.org/wiki/Lista_de_munic√≠pios_de_Portugal_por_popula√ß√£o");
@@ -41,6 +44,51 @@ public class Main {
         		System.out.println("Vai comeÁar...");
         		//parser.loadCityDistance();
         		
+        		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+        		Graph graph = new SingleGraph("pinning");
+        		graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled-ratio-min; fill-image: url('C:/img/file.png');} ");
+        		//Coordenadas de controlo para manter o tamanho fixo(isto tem de se fazer
+        		//devido ao layout ser din‚mico
+        		Node x1 = graph.addNode("control1");
+        		x1.addAttribute("layout.frozen");
+        		x1.addAttribute("xy", 35.854350, 9.584987);
+        		x1.addAttribute("ui.style", "size: 10px;");
+        		Node x2 = graph.addNode("control2");
+        		x2.addAttribute("layout.frozen");
+        		x2.addAttribute("xy", 43.125220, 5.990616);
+        		x2.addAttribute("ui.style", "size: 10px;");
+        		/*Fim das coordenadas de controlo*/
+        		
+        		System.out.println(parser.getCityList().size());
+        		for(int i = 0 ; i < parser.getCityList().size(); i++){
+        			String s = "cenas"+i;
+        			Node node = graph.addNode(s);
+        			node.addAttribute("layout.frozen");
+        			double x,y,Rx,Ry;
+        			Coords c = parser.getCityList().get(i).getCoords();
+        			//System.out.println(c.getLatitude());
+        			System.out.println(parser.getCityList().get(i).getName());
+        			//y=4050*Math.log(Math.tan((Math.PI/4)+c.getLatitude()/2));
+        			//x=725*(-c.getLongitude());
+        			x = -c.getLongitude();
+        			y = c.getLatitude();
+        			//System.out.println("X: "+x);
+        			//System.out.println("Y: "+y);
+        			System.out.println(c.getLatitude());
+        			System.out.println(c.getLongitude());
+        			node.setAttribute("x", y);
+        			node.setAttribute("y", x);
+        			//System.out.println("X"+i+"= "+x);
+        			//System.out.println("Y"+i+"= "+y);
+        			
+        			//System.in.read();
+        			//graph.addNode(arg0)
+        		}
+
+        		graph.display();
+        		System.in.read();
+        		 
+
         		System.out.println("Terminou...");
         	}
         } catch (IOException e) {
@@ -48,7 +96,7 @@ public class Main {
             System.err.println("Invalid URL...");
         }
         
-
+      
         System.out.println("IART-FINAL");
     }
     

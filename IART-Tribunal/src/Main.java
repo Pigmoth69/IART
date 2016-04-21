@@ -46,32 +46,33 @@ public class Main {
         		
         		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         		Graph graph = new SingleGraph("pinning");
-        		graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled-ratio-min; fill-image: url('C:/img/file.png');} ");
+        		graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled; fill-image: url('C:/img/file.png');} ");
         		//Coordenadas de controlo para manter o tamanho fixo(isto tem de se fazer
         		//devido ao layout ser dinâmico
         		Node x1 = graph.addNode("control1");
         		x1.addAttribute("layout.frozen");
-        		x1.addAttribute("xy", 35.854350, 9.584987);
+        		x1.addAttribute("xy", 37.0199999, 9.4222945);
         		x1.addAttribute("ui.style", "size: 10px;");
         		Node x2 = graph.addNode("control2");
         		x2.addAttribute("layout.frozen");
-        		x2.addAttribute("xy", 43.125220, 5.990616);
+        		x2.addAttribute("xy", 42.1143, 6.2712311);
         		x2.addAttribute("ui.style", "size: 10px;");
         		/*Fim das coordenadas de controlo*/
         		
         		System.out.println(parser.getCityList().size());
-        		for(int i = 0 ; i < parser.getCityList().size(); i++){
+        		for(int i = 0 ; i < 277; i++){
         			String s = "cenas"+i;
         			Node node = graph.addNode(s);
         			node.addAttribute("layout.frozen");
-        			double x,y,Rx,Ry;
+        			node.addAttribute("ui.style", "size: 6px;");
+        			double x,y;
         			Coords c = parser.getCityList().get(i).getCoords();
         			//System.out.println(c.getLatitude());
         			System.out.println(parser.getCityList().get(i).getName());
         			//y=4050*Math.log(Math.tan((Math.PI/4)+c.getLatitude()/2));
         			//x=725*(-c.getLongitude());
-        			x = -c.getLongitude();
-        			y = c.getLatitude();
+        			x = (-c.getLongitude()-0.08)*0.998;
+        			y = (c.getLatitude()-0.54)*1.0163;
         			//System.out.println("X: "+x);
         			//System.out.println("Y: "+y);
         			System.out.println(c.getLatitude());

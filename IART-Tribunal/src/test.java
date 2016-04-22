@@ -18,16 +18,19 @@ public class test {
 		cidades.add(new County("F", 1500, 5, 1, 1000, false));
 		
 		//GenethicAlgorithm(ArrayList<City> cidades, int popSize, double empProb, double mutProb, int generations, int nTribunais){
-		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, 3, 0.5, 0.01, 4, 4);
+		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, 4, 0.5, 0.01, 4, 4);
 		ArrayList<Gene> population = ga.getPopulation();
 		
+		
+		ga.doIt();
+		/*
 		for (Gene g : population){
 			for (int i = 0; i < g.getGene().size(); i++){
 				System.out.print(g.getGene().get(i));
 			}
 			System.out.println(".");
 		}
-		
+		*/
 		
 		//---Testes à função de avaliação
 		/*

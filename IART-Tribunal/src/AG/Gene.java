@@ -7,10 +7,21 @@ import Parser.County;
 
 public class Gene {
 	ArrayList<Integer> gene;
+	ArrayList<County> cidades;
 	
 	public Gene(ArrayList<County> cidades, int nTribunais) {
+		this.cidades = cidades;
 		gene = new ArrayList<Integer>();
 		generate(cidades, nTribunais);
+	}
+	
+	public void updateTribunals(){
+		for (int i = 0; i < cidades.size(); i++){
+			if (gene.get(i) == 1)
+				cidades.get(i).setHasTribunal(true);
+			else
+				cidades.get(i).setHasTribunal(false);
+		}
 	}
 	
 	public void generate(ArrayList<County> cidades, int nTribunais){
@@ -40,28 +51,6 @@ public class Gene {
 				gene.add(0);
 			}
 		}
-		
-		/* Este codigo não gera exatament nTribunais, mas um valor <= que nTribunais
-		for (City c : cidades){
-			if (nTribunais == 0){
-				c.setHasTribunal(false);
-				gene.add(0);
-			}
-			else{
-				Random gerador = new Random();
-				int v = gerador.nextInt(2);
-				if (v == 1){
-					c.setHasTribunal(true);
-					nTribunais--;
-					gene.add(1);
-				}
-				else{
-					c.setHasTribunal(false);
-					gene.add(0);
-				}
-			}
-		}
-		*/
 	}
 
 	public ArrayList<Integer> getGene() {
@@ -70,5 +59,14 @@ public class Gene {
 
 	public void setGene(ArrayList<Integer> gene) {
 		this.gene = gene;
+	}
+	
+	@Override
+	public String toString(){
+		String result = "";
+		for (int g : gene){
+			result += g;
+		}
+		return result;
 	}
 }

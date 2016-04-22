@@ -1,6 +1,7 @@
 package AG;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import Parser.County;
 
@@ -24,11 +25,89 @@ public class GenethicAlgorithm {
 		this.population = new ArrayList<Gene>();
 		this.nTribunais = nTribunais;
 		
-		for (int i = 0; i < popSize; i++){
-			population.add(new Gene(cidades, nTribunais));
-		}
 	}
 	
+	public ArrayList<Gene> doIt(){
+		this.population = initialization();
+		ArrayList<Double> scores = evaluate();
+		this.newPopulation = selection(scores);
+		
+		return population;
+		
+	}
+	
+	private ArrayList<Gene> initialization(){
+		ArrayList<Gene> pop = new ArrayList<Gene>();
+		
+		for (int i = 0; i < popSize; i++){
+			pop.add(new Gene(cidades, nTribunais));
+		}
+		
+		return pop;
+	}
+	
+	private ArrayList<Double> evaluate(){
+		ArrayList<Double> scores = new ArrayList<Double>();
+		
+		for (int i = 0; i < population.size(); i++){
+			double geneScore = 0;
+			population.get(i).updateTribunals();
+			
+			for (County cidade : cidades){
+				Evaluation eva = new Evaluation(cidade, cidades);
+				double e = eva.calculateScore();
+				
+				// PRINT de pontuação de cada cidade
+				//System.out.println(cidade.getName() + " - " + e);
+				
+				geneScore += e;
+			}
+			System.out.println(population.get(i).toString() + " - " + geneScore);
+			scores.add(geneScore);
+		}
+		
+		return scores;
+	}
+	
+	private ArrayList<Gene> selection(ArrayList<Double> scores){
+		double totalScore = 0;
+		ArrayList<Double> prob = new ArrayList<Double>(); 
+		
+		for (double score : scores)
+			totalScore += score;
+		for (double score : scores)
+			prob.add(score/totalScore);
+		
+		ArrayList<Double> probComutative = new ArrayList<Double>(prob); 
+		for (int i = 0; i < prob.size(); i++){
+			for (int j = i + 1; j < prob.size(); j++){
+				double value = probComutative.get(j);
+				value += prob.get(i);
+				
+				probComutative.set(j, value);
+			}
+		}
+		
+		ArrayList<Gene> newPop = new ArrayList<Gene>();
+		for (int i = 0; i < population.size(); i++){
+			double random = new Random().nextDouble();
+			int selected = getSelectedGene(random, probComutative);
+			newPop.add(population.get(selected));
+		}
+		
+		return newPop;
+		
+	}
+	
+	private int getSelectedGene(double random, ArrayList<Double> probComutative){
+		for (int i = 0; i < probComutative.size(); i++){
+			double val = probComutative.get(i);
+			if (random <= val)
+				return i;
+		}
+		
+		return -1;
+	}
 	
 	//-------------------------
 	//GETTERS AND SETTERS

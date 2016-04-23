@@ -12,7 +12,7 @@ public class Chromosome {
 	
 	public Chromosome(ArrayList<County> cidades, int nTribunais) {
 		this.cidades = cidades;
-		this.nTribunais = nTribunais;
+		this.nTribunais = nTribunais; 
 		Chromosome = new ArrayList<Integer>();
 	}
 	

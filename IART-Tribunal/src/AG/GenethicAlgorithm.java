@@ -10,48 +10,59 @@ public class GenethicAlgorithm {
 	private int popSize;
 	private double empProb;
 	private double mutProb;
-	private int generations;
+	private int Chromosomerations;
 	private int nTribunais; 
 	
-	private ArrayList<Gene> population;
-	private ArrayList<Gene> newPopulation;
+	private ArrayList<Chromosome> population;
+	private ArrayList<Chromosome> newPopulation;
 	
-	public GenethicAlgorithm(ArrayList<County> cidades, int popSize, double empProb, double mutProb, int generations, int nTribunais){
+	public GenethicAlgorithm(ArrayList<County> cidades, int popSize, double empProb, double mutProb, int Chromosomerations, int nTribunais){
 		this.cidades = cidades;
 		this.popSize = popSize;
 		this.empProb = empProb;
 		this.mutProb = mutProb;
-		this.generations = generations;
-		this.population = new ArrayList<Gene>();
+		this.Chromosomerations = Chromosomerations;
+		this.population = new ArrayList<Chromosome>();
+		this.newPopulation = new ArrayList<Chromosome>();
 		this.nTribunais = nTribunais;
 		
 	}
 	
-	public ArrayList<Gene> doIt(){
+	public ArrayList<Chromosome> doIt(){
 		this.population = initialization();
-		ArrayList<Double> scores = evaluate();
-		this.newPopulation = selection(scores);
+		ArrayList<Double> scores = evaluate(this.population);
+		
+		for (int i = 0; i < this.population.size(); i++){
+			ArrayList<Chromosome> tournamentSelected = selection(scores);
+			Chromosome c = crossover(tournamentSelected.get(0), tournamentSelected.get(1));
+			this.newPopulation.add(c);
+		}
+		
+		System.out.println("------------------------");
+		evaluate(this.newPopulation);
 		
 		return population;
 		
 	}
 	
-	private ArrayList<Gene> initialization(){
-		ArrayList<Gene> pop = new ArrayList<Gene>();
+	private ArrayList<Chromosome> initialization(){
+		ArrayList<Chromosome> pop = new ArrayList<Chromosome>();
 		
 		for (int i = 0; i < popSize; i++){
-			pop.add(new Gene(cidades, nTribunais));
+			Chromosome c = new Chromosome(cidades, nTribunais);
+			c.generate();
+			pop.add(c);
 		}
 		
 		return pop;
 	}
 	
-	private ArrayList<Double> evaluate(){
+	private ArrayList<Double> evaluate(ArrayList<Chromosome> pop){
 		ArrayList<Double> scores = new ArrayList<Double>();
 		
-		for (int i = 0; i < population.size(); i++){
-			double geneScore = 0;
-			population.get(i).updateTribunals();
+		for (int i = 0; i < pop.size(); i++){
+			double ChromosomeScore = 0;
+			pop.get(i).updateTribunals();
 			
 			for (County cidade : cidades){
 				Evaluation eva = new Evaluation(cidade, cidades);
@@ -60,16 +71,16 @@ public class GenethicAlgorithm {
 				// PRINT de pontuação de cada cidade
 				//System.out.println(cidade.getName() + " - " + e);
 				
-				geneScore += e;
+				ChromosomeScore += e;
 			}
-			System.out.println(population.get(i).toString() + " - " + geneScore);
-			scores.add(geneScore);
+			System.out.println(pop.get(i).toString() + " - " + ChromosomeScore);
+			scores.add(ChromosomeScore);
 		}
 		
 		return scores;
 	}
 	
-	private ArrayList<Gene> selection(ArrayList<Double> scores){
+	private ArrayList<Chromosome> selection(ArrayList<Double> scores){
 		double totalScore = 0;
 		ArrayList<Double> prob = new ArrayList<Double>(); 
 		
@@ -88,10 +99,10 @@ public class GenethicAlgorithm {
 			}
 		}
 		
-		ArrayList<Gene> newPop = new ArrayList<Gene>();
-		for (int i = 0; i < population.size(); i++){
+		ArrayList<Chromosome> newPop = new ArrayList<Chromosome>();
+		for (int i = 0; i < 2; i++){
 			double random = new Random().nextDouble();
-			int selected = getSelectedGene(random, probComutative);
+			int selected = getSelectedChromosome(random, probComutative);
 			newPop.add(population.get(selected));
 		}
 		
@@ -99,7 +110,20 @@ public class GenethicAlgorithm {
 		
 	}
 	
-	private int getSelectedGene(double random, ArrayList<Double> probComutative){
+	private Chromosome crossover(Chromosome c1, Chromosome c2){
+		Chromosome c = new Chromosome(cidades, nTribunais);
+		
+		for (int i = 0; i < c1.getChromosome().size(); i++){
+			if (Math.random() > 0.5)
+				c.addGene(c1.getChromosome().get(i));
+			else
+				c.addGene(c2.getChromosome().get(i));
+		}
+		
+		return c;
+	}
+	
+	private int getSelectedChromosome(double random, ArrayList<Double> probComutative){
 		for (int i = 0; i < probComutative.size(); i++){
 			double val = probComutative.get(i);
 			if (random <= val)
@@ -108,6 +132,8 @@ public class GenethicAlgorithm {
 		
 		return -1;
 	}
+	
+	
 	
 	//-------------------------
 	//GETTERS AND SETTERS
@@ -142,22 +168,22 @@ public class GenethicAlgorithm {
 	public void setMutProb(double mutProb) {
 		this.mutProb = mutProb;
 	}
-	public int getGenerations() {
-		return generations;
+	public int getChromosomerations() {
+		return Chromosomerations;
 	}
-	public void setGenerations(int generations) {
-		this.generations = generations;
+	public void setChromosomerations(int Chromosomerations) {
+		this.Chromosomerations = Chromosomerations;
 	}
-	public ArrayList<Gene> getPopulation() {
+	public ArrayList<Chromosome> getPopulation() {
 		return population;
 	}
-	public void setPopulation(ArrayList<Gene> population) {
+	public void setPopulation(ArrayList<Chromosome> population) {
 		this.population = population;
 	}
-	public ArrayList<Gene> getNewPopulation() {
+	public ArrayList<Chromosome> getNewPopulation() {
 		return newPopulation;
 	}
-	public void setNewPopulation(ArrayList<Gene> newPopulation) {
+	public void setNewPopulation(ArrayList<Chromosome> newPopulation) {
 		this.newPopulation = newPopulation;
 	}
 

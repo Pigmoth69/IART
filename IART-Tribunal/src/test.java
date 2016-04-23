@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 import AG.Evaluation;
-import AG.Gene;
+import AG.Chromosome;
 import AG.GenethicAlgorithm;
 import Parser.County;
 
@@ -17,16 +17,16 @@ public class test {
 		cidades.add(new County("E", 20000, 4, 3, 1000, false));
 		cidades.add(new County("F", 1500, 5, 1, 1000, false));
 		
-		//GenethicAlgorithm(ArrayList<City> cidades, int popSize, double empProb, double mutProb, int generations, int nTribunais){
+		//ChromosomethicAlgorithm(ArrayList<City> cidades, int popSize, double empProb, double mutProb, int Chromosomerations, int nTribunais){
 		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, 4, 0.5, 0.01, 4, 4);
-		ArrayList<Gene> population = ga.getPopulation();
+		ArrayList<Chromosome> population = ga.getPopulation();
 		
 		
 		ga.doIt();
 		/*
-		for (Gene g : population){
-			for (int i = 0; i < g.getGene().size(); i++){
-				System.out.print(g.getGene().get(i));
+		for (Chromosome g : population){
+			for (int i = 0; i < g.getChromosome().size(); i++){
+				System.out.print(g.getChromosome().get(i));
 			}
 			System.out.println(".");
 		}

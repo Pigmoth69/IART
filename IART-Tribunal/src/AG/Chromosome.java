@@ -5,26 +5,27 @@ import java.util.Random;
 
 import Parser.County;
 
-public class Gene {
-	ArrayList<Integer> gene;
+public class Chromosome {
+	ArrayList<Integer> Chromosome;
 	ArrayList<County> cidades;
+	int nTribunais;
 	
-	public Gene(ArrayList<County> cidades, int nTribunais) {
+	public Chromosome(ArrayList<County> cidades, int nTribunais) {
 		this.cidades = cidades;
-		gene = new ArrayList<Integer>();
-		generate(cidades, nTribunais);
+		this.nTribunais = nTribunais;
+		Chromosome = new ArrayList<Integer>();
 	}
 	
 	public void updateTribunals(){
 		for (int i = 0; i < cidades.size(); i++){
-			if (gene.get(i) == 1)
+			if (Chromosome.get(i) == 1)
 				cidades.get(i).setHasTribunal(true);
 			else
 				cidades.get(i).setHasTribunal(false);
 		}
 	}
 	
-	public void generate(ArrayList<County> cidades, int nTribunais){
+	public void generate(){
 		
 		ArrayList<Integer> tribunalIndexs = new ArrayList<Integer>();
 		
@@ -44,27 +45,31 @@ public class Gene {
 			County c = cidades.get(i);
 			if (tribunalIndexs.contains(i)){
 				c.setHasTribunal(true);
-				gene.add(1);
+				Chromosome.add(1);
 			}
 			else{
 				c.setHasTribunal(false);
-				gene.add(0);
+				Chromosome.add(0);
 			}
 		}
 	}
 
-	public ArrayList<Integer> getGene() {
-		return gene;
+	public ArrayList<Integer> getChromosome() {
+		return Chromosome;
 	}
 
-	public void setGene(ArrayList<Integer> gene) {
-		this.gene = gene;
+	public void setChromosome(ArrayList<Integer> Chromosome) {
+		this.Chromosome = Chromosome;
+	}
+	
+	public void addGene(int val){
+		this.Chromosome.add(val);
 	}
 	
 	@Override
 	public String toString(){
 		String result = "";
-		for (int g : gene){
+		for (int g : Chromosome){
 			result += g;
 		}
 		return result;

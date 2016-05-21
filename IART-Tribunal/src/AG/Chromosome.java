@@ -53,6 +53,20 @@ public class Chromosome {
 			}
 		}
 	}
+	
+	public int getNoTribunals(){
+		int count = 0;
+		for (int i : Chromosome){
+			if (i == 1)
+				count++;
+		}
+		return count;
+			
+	}
+	
+	public void setValue(int index, int value){
+		Chromosome.set(index, value);
+	}
 
 	public ArrayList<Integer> getChromosome() {
 		return Chromosome;

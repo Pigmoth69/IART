@@ -18,7 +18,7 @@ public class test {
 		cidades.add(new County("F", 1500, 5, 1, 1000, false));
 		
 		//ChromosomethicAlgorithm(ArrayList<City> cidades, int popSize, double empProb, double mutProb, int Chromosomerations, int nTribunais){
-		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, 4, 0.5, 0.01, 4, 4);
+		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, 8, 0.5, 0.01, 10, 4);
 		ArrayList<Chromosome> population = ga.getPopulation();
 		
 		

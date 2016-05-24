@@ -54,6 +54,7 @@ public class ParseCity implements java.io.Serializable{
         doc = Jsoup.connect(citiesURL).get();
         Elements elements = doc.getElementsByAttributeValueMatching("style", "text-align: center;");
         System.out.println(elements.size());
+        int id=0;
         for(Element e: elements){
         	if(e.childNodeSize() !=1 && e.childNodeSize() !=5){
         		String name = e.children().get(1).text();
@@ -76,8 +77,10 @@ public class ParseCity implements java.io.Serializable{
         		}catch(NumberFormatException e1){
         			populationNumber=-1;
         		}
-        		if(populationNumber !=-1)
-    				cityList.add(new County(name,populationNumber));
+        		if(populationNumber !=-1){
+    				cityList.add(new County(id,name,populationNumber));
+    				id++;
+        		}
 
         	}
         }

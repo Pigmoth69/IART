@@ -1,4 +1,4 @@
-package AG;
+package algorithms;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -40,16 +40,16 @@ public class GenethicAlgorithm {
 			this.newPopulation.add(this.population.get(bestScoreIndex));
 			
 			for (int i = 1; i < this.population.size(); i++){		
-				System.out.println("sel+crossover+mut (" + i + "): ");
+				//System.out.println("sel+crossover+mut (" + i + "): ");
 				
 				ArrayList<Chromosome> tournamentSelected = selection(scores);
-				System.out.println("selected: " + tournamentSelected.get(0) + " - " + tournamentSelected.get(1));
+				//System.out.println("selected: " + tournamentSelected.get(0) + " - " + tournamentSelected.get(1));
 				
 				Chromosome c = crossover(tournamentSelected.get(0), tournamentSelected.get(1));
-				System.out.println("b4: " + c.toString());
+				//System.out.println("b4: " + c.toString());
 
 				Chromosome cMut = mutation(c);
-				System.out.println("af: " + cMut.toString());
+				//System.out.println("af: " + cMut.toString());
 				
 				this.newPopulation.add(cMut);
 			}
@@ -77,7 +77,7 @@ public class GenethicAlgorithm {
 		
 		return pop;
 	}
-	
+
 	private ArrayList<Double> evaluate(ArrayList<Chromosome> pop){
 		ArrayList<Double> scores = new ArrayList<Double>();
 		

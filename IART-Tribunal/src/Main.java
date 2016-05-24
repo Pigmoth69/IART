@@ -46,7 +46,7 @@ public class Main {
         		
         		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         		Graph graph = new SingleGraph("pinning");
-        		graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled; fill-image: url('C:/Users/David/Desktop/Faculdade/3 ano/2 semestre/IART/IART/IART-Tribunal/img/file.png');} ");
+        		graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled; fill-image: url('Z:/git/IART/IART-Tribunal/img/file.png');} ");
         		//Coordenadas de controlo para manter o tamanho fixo(isto tem de se fazer
         		//devido ao layout ser dinâmico
         		Node x1 = graph.addNode("control1");
@@ -60,7 +60,8 @@ public class Main {
         		/*Fim das coordenadas de controlo*/
         		
         		System.out.println(parser.getCityList().size());
-        		for(int i = 0 ; i < 277; i++){
+        		
+        		/*for(int i = 0 ; i < 277; i++){
         			String s = "cenas"+i;
         			Node node = graph.addNode(s);
         			node.addAttribute("layout.frozen");
@@ -84,11 +85,14 @@ public class Main {
         			
         			//System.in.read();
         			//graph.addNode(arg0)
-        		}
+        		}*/
+        		
+        		for(int i = 0; i < parser.getCityList().size();i++){
+        			System.out.println(parser.getCityList().get(i).getName());
+        			System.out.println(parser.getCityList().get(i).getCityID());
 
-        		graph.display();
-        		System.in.read();
-        		 
+        		}
+        		graph.display();        		 
 
         		System.out.println("Terminou...");
         	}

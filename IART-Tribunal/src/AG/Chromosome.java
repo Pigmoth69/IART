@@ -88,4 +88,17 @@ public class Chromosome {
 		}
 		return result;
 	}
+
+	public ArrayList<County> getCidades() {
+		return cidades;
+	}
+
+	public void setCidades(ArrayList<County> cidades) {
+		this.cidades = cidades;
+	}
+
+	public void setnTribunais(int nTribunais) {
+		this.nTribunais = nTribunais;
+	}
+
 }

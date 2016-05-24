@@ -36,7 +36,10 @@ public class GenethicAlgorithm {
 			
 			this.newPopulation = new ArrayList<Chromosome>();
 			
-			for (int i = 0; i < this.population.size(); i++){
+			int bestScoreIndex = getBestScore(scores);
+			this.newPopulation.add(this.population.get(bestScoreIndex));
+			
+			for (int i = 1; i < this.population.size(); i++){		
 				System.out.println("sel+crossover+mut (" + i + "): ");
 				
 				ArrayList<Chromosome> tournamentSelected = selection(scores);
@@ -216,7 +219,18 @@ public class GenethicAlgorithm {
 		return -1;
 	}
 	
-	
+	private int getBestScore(ArrayList<Double> scores){
+		int i = 0, maxId = -1;
+		double max = 0;	
+		for (; i < scores.size(); i++){
+			if (scores.get(i) > max){
+				max = scores.get(i);
+				maxId = i;
+			}
+		}
+		
+		return maxId;
+	}
 	
 	//-------------------------
 	//GETTERS AND SETTERS

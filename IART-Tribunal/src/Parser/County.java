@@ -18,7 +18,8 @@ public class County implements java.io.Serializable{
 		this.name = name;
 		this.population=population;
 	}
-    public boolean isHasTribunal() {
+    
+	public boolean isHasTribunal() {
 		return hasTribunal;
 	}
 

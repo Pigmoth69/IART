@@ -43,10 +43,11 @@ public class test {
 		cidades.add(new County("AD", 4000, 9, 10, 1000, true));
 		
 		int nTribunais = 15;
+		boolean elitist = true;
 		
 		switch(args[0]){
 		case "GA":
-			testGA(cidades, 8, 0.5, 0.01, 10, nTribunais);
+			testGA(cidades, 8, 0.01, 10, nTribunais, elitist);
 			break;
 		case "SA":
 			Chromosome c = new Chromosome(cidades, nTribunais);
@@ -54,11 +55,11 @@ public class test {
 			testSA(c, 150, 1.0, 0.95, cidades);
 			break;
 		case "GASA":
-			Chromosome ch = testGA(cidades, 8, 0.5, 0.01, 100, nTribunais);
+			Chromosome ch = testGA(cidades, 8, 0.01, 100, nTribunais, elitist);
 			testSA(ch, 150, 1.0, 0.95, cidades);
 			break;
 		case "SAGA":
-			break;
+			break; 
 		default:
 			System.out.println("peido");
 			break;
@@ -67,13 +68,13 @@ public class test {
 		
 	}
 
-	private static Chromosome testGA(ArrayList<County> cidades, int popSize, double empProb, double mutProb, int Chromosomerations, int nTribunais){
+	private static Chromosome testGA(ArrayList<County> cidades, int popSize, double mutProb, int Chromosomerations, int nTribunais, boolean elitist){
 		
 		//ChromosomethicAlgorithm(ArrayList<City> cidades, int popSize, double empProb, double mutProb, int Chromosomerations, int nTribunais){
-		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, popSize, empProb, mutProb, Chromosomerations, nTribunais);
+		GenethicAlgorithm ga = new GenethicAlgorithm(cidades, popSize, mutProb, Chromosomerations, nTribunais, elitist);
 		ArrayList<Chromosome> population = ga.getPopulation();
 		
-		Chromosome c = ga.doIt().get(0);
+		Chromosome c = ga.doIt();
 		
 		return c;
 		/*

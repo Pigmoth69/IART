@@ -8,27 +8,27 @@ import Parser.County;
 public class GenethicAlgorithm {
 	private ArrayList<County> cidades;
 	private int popSize;
-	private double empProb;
 	private double mutProb;
 	private int Chromosomerations;
 	private int nTribunais; 
+	private boolean elitist;
 	
 	private ArrayList<Chromosome> population;
 	private ArrayList<Chromosome> newPopulation;
 	
-	public GenethicAlgorithm(ArrayList<County> cidades, int popSize, double empProb, double mutProb, int Chromosomerations, int nTribunais){
+	public GenethicAlgorithm(ArrayList<County> cidades, int popSize, double mutProb, int Chromosomerations, int nTribunais, boolean elitist){
 		this.cidades = cidades;
 		this.popSize = popSize;
-		this.empProb = empProb;
 		this.mutProb = mutProb;
 		this.Chromosomerations = Chromosomerations;
 		this.population = new ArrayList<Chromosome>();
 		this.newPopulation = new ArrayList<Chromosome>();
 		this.nTribunais = nTribunais;
+		this.elitist = elitist;
 		
 	}
 	
-	public ArrayList<Chromosome> doIt(){
+	public Chromosome doIt(){
 		this.population = initialization();
 		
 		for (int generation = 0; generation < Chromosomerations; generation++){
@@ -36,10 +36,14 @@ public class GenethicAlgorithm {
 			
 			this.newPopulation = new ArrayList<Chromosome>();
 			
-			int bestScoreIndex = getBestScore(scores);
-			this.newPopulation.add(this.population.get(bestScoreIndex));
+			int i = 0;
+			if (elitist){
+				int bestScoreIndex = getBestScore(scores);
+				this.newPopulation.add(this.population.get(bestScoreIndex));
+				i = 1;
+			}
 			
-			for (int i = 1; i < this.population.size(); i++){		
+			for (; i < this.population.size(); i++){		
 				//System.out.println("sel+crossover+mut (" + i + "): ");
 				
 				ArrayList<Chromosome> tournamentSelected = selection(scores);
@@ -58,11 +62,11 @@ public class GenethicAlgorithm {
 			
 			population = newPopulation;
 		}
-		evaluate(population);
+		ArrayList<Double> scoresR = evaluate(population);
 		
 		System.out.println("FINITO");
 		
-		return population;
+		return population.get(getBestScore(scoresR));
 		
 	}
 	
@@ -252,12 +256,6 @@ public class GenethicAlgorithm {
 	}
 	public void setPopSize(int popSize) {
 		this.popSize = popSize;
-	}
-	public double getEmpProb() {
-		return empProb;
-	}
-	public void setEmpProb(double empProb) {
-		this.empProb = empProb;
 	}
 	public double getMutProb() {
 		return mutProb;

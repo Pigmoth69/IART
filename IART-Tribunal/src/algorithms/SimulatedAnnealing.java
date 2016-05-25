@@ -27,15 +27,9 @@ public class SimulatedAnnealing {
 			Chromosome c = mutate();
 			double newScore = evaluate(c);
 			
-			if (t == 0)
-				System.out.println(t + ": " + solution.toString() + " - " + oldScore);
-				
-			
 			if (newScore > oldScore){
-				//System.out.println("COMPARE: " + newScore + " > " + oldScore + "?");
-				//System.out.println("GENES: " + c.toString() + " - " + solution.toString() + "?");
 				setSolution(c);
-				//System.out.println("------------------------------------------");
+				
 				System.out.println("("+t+"): " + solution.toString() + " - " + newScore);
 				System.out.println("------------------------------------------");
 			}
@@ -45,11 +39,10 @@ public class SimulatedAnnealing {
 				
 				double rand = Math.random();
 				
-				//System.out.println(rand + " < " + prob + "?");
 				
 				if (rand < prob){
 					setSolution(c);
-					//System.out.println("------------------------------------------");
+					
 					System.out.println("("+t+"): " + ": " + "-> " + solution.toString() + " - " + newScore);
 					System.out.println("------------------------------------------");
 				}

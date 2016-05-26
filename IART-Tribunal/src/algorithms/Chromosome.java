@@ -1,4 +1,4 @@
-package AG;
+package algorithms;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -53,13 +53,32 @@ public class Chromosome {
 			}
 		}
 	}
+	
+	public int getNoTribunals(){
+		int count = 0;
+		for (int i : Chromosome){
+			if (i == 1)
+				count++;
+		}
+		return count;
+			
+	}
+	
+	public void setValue(int index, int value){
+		Chromosome.set(index, value);
+	}
 
 	public ArrayList<Integer> getChromosome() {
 		return Chromosome;
 	}
 
-	public void setChromosome(ArrayList<Integer> Chromosome) {
-		this.Chromosome = Chromosome;
+	public void setChromosome(ArrayList<Integer> Ch) {
+		for (int i : Ch){
+			if (i == 0)
+				Chromosome.add(0);
+			else if (i == 1)
+				Chromosome.add(1);
+		}
 	}
 	
 	public void addGene(int val){
@@ -72,6 +91,30 @@ public class Chromosome {
 		for (int g : Chromosome){
 			result += g;
 		}
+		return result;
+	}
+
+	public ArrayList<County> getCidades() {
+		return cidades;
+	}
+
+	public void setCidades(ArrayList<County> cidades) {
+		this.cidades = cidades;
+	}
+
+	public void setnTribunais(int nTribunais) {
+		this.nTribunais = nTribunais;
+	}
+
+	public ArrayList<Integer> getIndexOf(int val){
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		
+		for (int i = 0; i < Chromosome.size(); i++){
+			if (Chromosome.get(i) == val){
+				result.add(i);
+			}
+		}
+		
 		return result;
 	}
 }

@@ -1,4 +1,4 @@
-package AG;
+package algorithms;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,40 +8,65 @@ import Parser.County;
 public class GenethicAlgorithm {
 	private ArrayList<County> cidades;
 	private int popSize;
-	private double empProb;
 	private double mutProb;
 	private int Chromosomerations;
 	private int nTribunais; 
+	private boolean elitist;
 	
 	private ArrayList<Chromosome> population;
 	private ArrayList<Chromosome> newPopulation;
 	
-	public GenethicAlgorithm(ArrayList<County> cidades, int popSize, double empProb, double mutProb, int Chromosomerations, int nTribunais){
+	public GenethicAlgorithm(ArrayList<County> cidades, int popSize, double mutProb, int Chromosomerations, int nTribunais, boolean elitist){
 		this.cidades = cidades;
 		this.popSize = popSize;
-		this.empProb = empProb;
 		this.mutProb = mutProb;
 		this.Chromosomerations = Chromosomerations;
 		this.population = new ArrayList<Chromosome>();
 		this.newPopulation = new ArrayList<Chromosome>();
 		this.nTribunais = nTribunais;
+		this.elitist = elitist;
 		
 	}
 	
-	public ArrayList<Chromosome> doIt(){
+	public Chromosome doIt(){
 		this.population = initialization();
-		ArrayList<Double> scores = evaluate(this.population);
 		
-		for (int i = 0; i < this.population.size(); i++){
-			ArrayList<Chromosome> tournamentSelected = selection(scores);
-			Chromosome c = crossover(tournamentSelected.get(0), tournamentSelected.get(1));
-			this.newPopulation.add(c);
+		for (int generation = 0; generation < Chromosomerations; generation++){
+			ArrayList<Double> scores = evaluate(this.population);
+			
+			this.newPopulation = new ArrayList<Chromosome>();
+			
+			int i = 0;
+			if (elitist){
+				int bestScoreIndex = getBestScore(scores);
+				this.newPopulation.add(this.population.get(bestScoreIndex));
+				i = 1;
+			}
+			
+			for (; i < this.population.size(); i++){		
+				//System.out.println("sel+crossover+mut (" + i + "): ");
+				
+				ArrayList<Chromosome> tournamentSelected = selection(scores);
+				//System.out.println("selected: " + tournamentSelected.get(0) + " - " + tournamentSelected.get(1));
+				
+				Chromosome c = crossover(tournamentSelected.get(0), tournamentSelected.get(1));
+				//System.out.println("b4: " + c.toString());
+
+				Chromosome cMut = mutation(c);
+				//System.out.println("af: " + cMut.toString());
+				
+				this.newPopulation.add(cMut);
+			}
+			
+			System.out.println("------------------------ GENERATION " + generation + " OVER");
+			
+			population = newPopulation;
 		}
+		ArrayList<Double> scoresR = evaluate(population);
 		
-		System.out.println("------------------------");
-		evaluate(this.newPopulation);
+		System.out.println("FINITO");
 		
-		return population;
+		return population.get(getBestScore(scoresR));
 		
 	}
 	
@@ -56,7 +81,7 @@ public class GenethicAlgorithm {
 		
 		return pop;
 	}
-	
+
 	private ArrayList<Double> evaluate(ArrayList<Chromosome> pop){
 		ArrayList<Double> scores = new ArrayList<Double>();
 		
@@ -69,7 +94,7 @@ public class GenethicAlgorithm {
 				double e = eva.calculateScore();
 				
 				// PRINT de pontuação de cada cidade
-				//System.out.println(cidade.getName() + " - " + e);
+				//System.out.printl n(cidade.getName() + " - " + e);
 				
 				ChromosomeScore += e;
 			}
@@ -112,15 +137,80 @@ public class GenethicAlgorithm {
 	
 	private Chromosome crossover(Chromosome c1, Chromosome c2){
 		Chromosome c = new Chromosome(cidades, nTribunais);
+		int a, b, tribCount = 0;
+		double prob = 0.5;
 		
 		for (int i = 0; i < c1.getChromosome().size(); i++){
-			if (Math.random() > 0.5)
-				c.addGene(c1.getChromosome().get(i));
-			else
-				c.addGene(c2.getChromosome().get(i));
+			a = c1.getChromosome().get(i);
+			b = c2.getChromosome().get(i);
+			
+			if (a == b){
+				c.addGene(a);
+				if (a == 1)
+					tribCount++;
+			}
+			else{
+				prob = (double)(nTribunais - tribCount)/(c1.getChromosome().size() - i);
+				//System.out.println("prob: " + prob + "|| nT/tC/size/i = " + nTribunais + "/" + tribCount + "/" + c1.getChromosome().size() + "/" + i);
+				if (Math.random() > prob){
+					c.addGene(0);
+				}else{
+					c.addGene(1);
+					tribCount++;
+				}
+			}
+			
 		}
 		
 		return c;
+	}
+	
+	private Chromosome mutation(Chromosome c1){
+		
+		int count = c1.getNoTribunals();
+		Random rand = new Random();
+		
+		while(count != nTribunais){
+			int val = rand.nextInt(c1.getChromosome().size());
+			
+			if (count < nTribunais){
+				if (c1.getChromosome().get(val) == 0){
+					c1.setValue(val, 1);
+					count++;
+				}
+			}
+			else{
+				if (c1.getChromosome().get(val) == 1){
+					c1.setValue(val, 0);
+					count--;
+				}
+			}
+		}
+		
+		if (Math.random() < mutProb){
+			while(true){
+				int a = rand.nextInt(c1.getChromosome().size());
+				int b = rand.nextInt(c1.getChromosome().size());
+				int aV = c1.getChromosome().get(a);
+				int bV = c1.getChromosome().get(b);
+				if (a == b || aV == bV)
+					continue;
+				else{
+					if (aV == 0){
+						c1.setValue(a, 1);
+						c1.setValue(b, 0);
+					}
+					else{
+						c1.setValue(a, 0);
+						c1.setValue(b, 1);
+					}
+					break;	
+				}
+					
+			}
+		}
+		
+		return c1;
 	}
 	
 	private int getSelectedChromosome(double random, ArrayList<Double> probComutative){
@@ -133,7 +223,18 @@ public class GenethicAlgorithm {
 		return -1;
 	}
 	
-	
+	private int getBestScore(ArrayList<Double> scores){
+		int i = 0, maxId = -1;
+		double max = 0;	
+		for (; i < scores.size(); i++){
+			if (scores.get(i) > max){
+				max = scores.get(i);
+				maxId = i;
+			}
+		}
+		
+		return maxId;
+	}
 	
 	//-------------------------
 	//GETTERS AND SETTERS
@@ -155,12 +256,6 @@ public class GenethicAlgorithm {
 	}
 	public void setPopSize(int popSize) {
 		this.popSize = popSize;
-	}
-	public double getEmpProb() {
-		return empProb;
-	}
-	public void setEmpProb(double empProb) {
-		this.empProb = empProb;
 	}
 	public double getMutProb() {
 		return mutProb;

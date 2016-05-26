@@ -6,6 +6,7 @@ public class County implements java.io.Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -1884797007619302958L;
+	private int cityID;
 	private String name;
     private int population;
     private Coords coords;
@@ -14,18 +15,27 @@ public class County implements java.io.Serializable{
 
 
 
-	public County(String name, int population){
+	public County(int cityID,String name, int population){
+		this.cityID=cityID;
 		this.name = name;
 		this.population=population;
 	}
-    public boolean isHasTribunal() {
+    
+	public boolean isHasTribunal() {
 		return hasTribunal;
 	}
 
 	public void setHasTribunal(boolean hasTribunal) {
 		this.hasTribunal = hasTribunal;
 	}
+	
 
+	public int getCityID() {
+		return cityID;
+	}
+	public void setCityID(int cityID) {
+		this.cityID = cityID;
+	}
 	public double getCustoConstrução() {
 		return custoConstrução;
 	}

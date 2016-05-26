@@ -46,7 +46,7 @@ public class Main {
         		
         		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         		Graph graph = new SingleGraph("pinning");
-        		graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled; fill-image: url('C:/Users/David/Desktop/Faculdade/3 ano/2 semestre/IART/IART/IART-Tribunal/img/file.png');} ");
+        		graph.addAttribute("ui.stylesheet", "graph {fill-mode: image-scaled; fill-image: url('C:/Users/danny/git/IART/IART-Tribunal/img/file.png');} ");
         		//Coordenadas de controlo para manter o tamanho fixo(isto tem de se fazer
         		//devido ao layout ser dinâmico
         		Node x1 = graph.addNode("control1");

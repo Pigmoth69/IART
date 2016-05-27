@@ -11,13 +11,15 @@ public class SimulatedAnnealing {
 	private double temperature;
 	private double alfa;
 	private ArrayList<County> cidades;
+	private int[][] distanceMatrix;
 	
-	public SimulatedAnnealing(Chromosome solution, int tries, double temperature, double alfa, ArrayList<County> cidades){
+	public SimulatedAnnealing(Chromosome solution, int tries, double temperature, double alfa, ArrayList<County> cidades, int[][] distanceMatrix){
 		this.solution = solution;
 		this.tries = tries;
 		this.temperature = temperature;
 		this.alfa = alfa;
 		this.cidades = cidades;
+		this.distanceMatrix=distanceMatrix;
 	}
 	
 	public Chromosome doIt(){
@@ -30,7 +32,7 @@ public class SimulatedAnnealing {
 			if (newScore > oldScore){
 				setSolution(c);
 				
-				System.out.println("("+t+"): " + solution.toString() + " - " + newScore);
+				System.out.println("("+t+"): " + newScore);
 				System.out.println("------------------------------------------");
 			}
 			else if (newScore < oldScore){
@@ -43,8 +45,8 @@ public class SimulatedAnnealing {
 				if (rand < prob){
 					setSolution(c);
 					
-					System.out.println("("+t+"): " + ": " + "-> " + solution.toString() + " - " + newScore);
-					System.out.println("------------------------------------------");
+					System.out.println("("+t+"): " + newScore);
+					System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 				}
 			}
 		}
@@ -58,7 +60,7 @@ public class SimulatedAnnealing {
 		double ChromosomeScore = 0;
 
 		for (County cidade : c.getCidades()){
-			Evaluation eva = new Evaluation(cidade, c.getCidades());
+			Evaluation eva = new Evaluation(cidade, c.getCidades(), distanceMatrix);
 			double e = eva.calculateScore();
 			
 			ChromosomeScore += e;

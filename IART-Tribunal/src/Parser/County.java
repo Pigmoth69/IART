@@ -10,7 +10,7 @@ public class County implements java.io.Serializable{
 	private String name;
     private int population;
     private Coords coords;
-	private double custoConstrução;
+	private double custoConstrucao;
 	private boolean hasTribunal;
 
 
@@ -36,26 +36,21 @@ public class County implements java.io.Serializable{
 	public void setCityID(int cityID) {
 		this.cityID = cityID;
 	}
-	public double getCustoConstrução() {
-		return custoConstrução;
+	public double getCustoConstrucao() {
+		return custoConstrucao;
 	}
 
-	public void setCustoConstrução(double custoConstrução) {
-		this.custoConstrução = custoConstrução;
+	public void setCustoConstrucao(double custoConstrucao) {
+		this.custoConstrucao = custoConstrucao;
 	}
 	
 	public County(String name, int population, double lat, double longi, double custo, boolean tribunal){
         this.name = name;
         this.population=population;
         this.coords = new Coords(lat,longi);
-        this.custoConstrução = custo;
+        this.custoConstrucao = custo;
         this.hasTribunal = tribunal;
     }
-	
-	public double getDistanceTo(County c){
-		return Math.sqrt(Math.pow(this.coords.getLatitude() - c.getCoords().getLatitude(), 2) + Math.pow(this.coords.getLongitude() - c.getCoords().getLongitude(), 2));
-	}
-
 
 	public void setName(String name) {
         this.name = name;

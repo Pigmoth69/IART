@@ -39,8 +39,11 @@ public class ParseCity implements java.io.Serializable{
             loadCities();
             loadCoords();
             loadCityDistance();
+			loadCustos();
         }
     }
+
+
 
 	public ArrayList<County> getCityList() {
 		return cityList;
@@ -58,14 +61,14 @@ public class ParseCity implements java.io.Serializable{
         for(Element e: elements){
         	if(e.childNodeSize() !=1 && e.childNodeSize() !=5){
         		String name = e.children().get(1).text();
-        		if(name.contains("(Madeira)") || name.contains("(Açores)")|| name.contains("Funchal")||
-        		   name.contains("Ponta Delgada")|| name.contains("Santa Cruz")||name.contains("Câmara de Lobos")||
-        		   name.contains("Angra do Heroísmo")||name.contains("Ribeira Grande")||name.contains("Machico")||
-        		   name.contains("Praia da Vitória")||name.contains("Horta")||name.contains("Vila Franca do Campo")||
-        		   name.contains("Santana")||name.contains("Povoação")||name.contains("Madalena")||name.contains("São Vicente")||
+        		if(name.contains("(Madeira)") || name.contains("(Aï¿½ores)")|| name.contains("Funchal")||
+        		   name.contains("Ponta Delgada")|| name.contains("Santa Cruz")||name.contains("Cï¿½mara de Lobos")||
+        		   name.contains("Angra do Heroï¿½smo")||name.contains("Ribeira Grande")||name.contains("Machico")||
+        		   name.contains("Praia da Vitï¿½ria")||name.contains("Horta")||name.contains("Vila Franca do Campo")||
+        		   name.contains("Santana")||name.contains("Povoaï¿½ï¿½o")||name.contains("Madalena")||name.contains("Sï¿½o Vicente")||
         		   name.contains("Vila do Porto")||name.contains("Porto Santo")||name.contains("Velas")||name.contains("Nordeste")||
         		   name.contains("Lajes do Pico")||name.contains("Santa Cruz da Graciosa")|| name.contains("Calheta")||
-        		   name.contains("São Roque do Pico")||name.contains("Porto Moniz")||name.contains("Santa Cruz das Flores")||
+        		   name.contains("Sï¿½o Roque do Pico")||name.contains("Porto Moniz")||name.contains("Santa Cruz das Flores")||
         		   name.contains("Lajes das Flores")|| name.contains("Corvo")|| name.contains("Ribeira Brava")|| name.contains("Ponta do Sol")||
         		   name.contains("Santana"))
         			continue;
@@ -152,6 +155,12 @@ public class ParseCity implements java.io.Serializable{
     	}
     	
     }
+
+	private void loadCustos() {
+		for (County c : cityList){
+			c.setCustoConstrucao(1000);
+		}
+	}
     
     private Coords parseCityFromJSON(String jsonString) throws JSONException{
     	JSONObject obj = new JSONObject(jsonString);

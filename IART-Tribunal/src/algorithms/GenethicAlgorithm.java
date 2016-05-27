@@ -12,14 +12,16 @@ public class GenethicAlgorithm {
 	private int Chromosomerations;
 	private int nTribunais; 
 	private boolean elitist;
+	private int[][] distanceMatrix;
 	
 	private ArrayList<Chromosome> population;
 	private ArrayList<Chromosome> newPopulation;
 	
-	public GenethicAlgorithm(ArrayList<County> cidades, int popSize, double mutProb, int Chromosomerations, int nTribunais, boolean elitist){
+	public GenethicAlgorithm(ArrayList<County> cidades, int[][] distanceMatrix, int popSize, double mutProb, int Chromosomerations, int nTribunais, boolean elitist){
 		this.cidades = cidades;
 		this.popSize = popSize;
 		this.mutProb = mutProb;
+		this.distanceMatrix=distanceMatrix;
 		this.Chromosomerations = Chromosomerations;
 		this.population = new ArrayList<Chromosome>();
 		this.newPopulation = new ArrayList<Chromosome>();
@@ -90,15 +92,15 @@ public class GenethicAlgorithm {
 			pop.get(i).updateTribunals();
 			
 			for (County cidade : cidades){
-				Evaluation eva = new Evaluation(cidade, cidades);
+				Evaluation eva = new Evaluation(cidade, cidades,distanceMatrix);
 				double e = eva.calculateScore();
 				
-				// PRINT de pontuação de cada cidade
+				// PRINT de pontuaï¿½ï¿½o de cada cidade
 				//System.out.printl n(cidade.getName() + " - " + e);
 				
 				ChromosomeScore += e;
 			}
-			System.out.println(pop.get(i).toString() + " - " + ChromosomeScore);
+			System.out.println(ChromosomeScore);
 			scores.add(ChromosomeScore);
 		}
 		
